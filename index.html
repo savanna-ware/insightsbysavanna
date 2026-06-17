@@ -243,49 +243,118 @@
   }
 ── */
 
- .about-top-grid {
+ #about {
+  border-top: 1px solid var(--light);
+}
+
+.about-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  grid-template-columns: 1fr 1fr;  /* left: text, right: photo */
+  gap: 5rem;
   align-items: start;
 }
 
-.about-photo-wrap {
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  border-radius: 8px;
-}
-
-.about-photo-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-}
-
 .about-body {
-  margin-top: 2.5rem;
+  margin-top: 3rem;
 }
 
 .about-body p {
+  font-size: 1rem;
+  color: var(--mid);
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+  font-weight: 300;
+}
+
+.about-body p strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
   margin-bottom: 1rem;
 }
 
-@media (max-width: 768px) {
-  .about-top-grid {
-    grid-template-columns: 1fr;
-  }
-  .about-right {
-    order: -1;
-  }
-  .about-photo-wrap {
-    aspect-ratio: 1 / 1;
-    max-width: 280px;
-    margin: 0 auto;
-  }
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 2rem;
 }
 
+.about-photo {
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  margin-bottom: 2rem;
+  filter: grayscale(8%);
+}
+
+.about-photo-wrap {
+  position: relative;
+}
+
+.about-photo-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 2.4rem;
+  right: -12px;
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--accent);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.about-facts {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.fact {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1rem 1.25rem;
+  background: var(--accent-light);
+  border-left: 2px solid var(--accent);
+}
+
+.fact-label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  min-width: 80px;
+  padding-top: 2px;
+}
+
+.fact-value {
+  font-size: 0.9rem;
+  color: var(--ink);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+  .about-photo-wrap {
+    order: -1;
+  }
+}
   /* ── EXPERTISE ── */
   #expertise { border-top: 1px solid var(--light); background: var(--ink); color: var(--white); max-width: 100%; padding: 7rem 0; }
 
