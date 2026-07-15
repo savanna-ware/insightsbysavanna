@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>When Dashboards Lie: The Hidden Cost of Complexity | Insights by Savanna</title>
+<meta name="description" content="A look at my thesis research on cognitive load, dashboard design, and how more data on a screen can actually lead to worse decisions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --white: #FAFAF8; --ink: #1C1C1C; --mid: #6B6B6B; --light: #E8E6E1;
+    --accent: #C17D5A; --accent-light: #F2EAE3;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--white); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 3rem; background: rgba(250,250,248,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--light); }
+  .nav-logo { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); text-decoration: none; letter-spacing: 0.01em; }
+  .nav-logo span { color: var(--accent); font-style: italic; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-family: var(--sans); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+  main { max-width: 760px; margin: 0 auto; padding: 9rem 1.5rem 6rem; }
+  .post-eyebrow { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
+  .post-eyebrow::before { content: ''; display: inline-block; width: 2rem; height: 1px; background: var(--accent); }
+  .post-title { font-family: var(--serif); font-size: clamp(2.1rem, 5vw, 3.2rem); line-height: 1.15; color: var(--ink); margin-bottom: 1.5rem; }
+  .post-sub { font-size: 1.05rem; color: var(--mid); line-height: 1.7; font-weight: 300; margin-bottom: 1.75rem; }
+  .post-meta { font-family: var(--mono); font-size: 0.7rem; color: #bbb; letter-spacing: 0.06em; padding-bottom: 2.5rem; border-bottom: 1px solid var(--light); margin-bottom: 3rem; }
+  .post-body h2 { font-family: var(--serif); font-size: 1.6rem; color: var(--ink); margin: 2.75rem 0 1.1rem; line-height: 1.3; }
+  .post-body p { font-size: 1rem; color: var(--mid); line-height: 1.85; font-weight: 300; margin-bottom: 1.4rem; }
+  .post-body strong { color: var(--ink); font-weight: 500; }
+  .post-body a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-light); }
+  .post-body a:hover { border-color: var(--accent); }
+  .stat-table { width: 100%; border-collapse: collapse; margin: 1.75rem 0 2.25rem; font-family: var(--mono); font-size: 0.82rem; }
+  .stat-table th { text-align: left; font-weight: 500; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.68rem; padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--light); }
+  .stat-table td { padding: 0.6rem 0.8rem; color: var(--mid); border-bottom: 1px solid var(--light); }
+  .stat-table tr:last-child td { border-bottom: none; }
+  .callout { background: var(--accent-light); border-left: 2px solid var(--accent); padding: 1.25rem 1.5rem; margin: 1.75rem 0; font-size: 0.92rem; color: var(--ink); line-height: 1.7; font-weight: 300; }
+  .post-footnote { margin-top: 3.5rem; padding-top: 2rem; border-top: 1px solid var(--light); font-family: var(--mono); font-size: 0.72rem; color: #999; line-height: 1.9; }
+  .post-footnote a { color: var(--mid); }
+  .back-link { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--sans); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; border-bottom: 1.5px solid var(--ink); padding-bottom: 2px; transition: color 0.2s, border-color 0.2s; margin-top: 3.5rem; }
+  .back-link:hover { color: var(--accent); border-color: var(--accent); }
+  footer { border-top: 1px solid var(--light); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 0.7rem; color: #bbb; letter-spacing: 0.06em; }
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    main { padding: 7rem 1.5rem 4rem; }
+    .stat-table { font-size: 0.72rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html#home" class="nav-logo">insights <span>by savanna</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#home">Home</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#blog">Blog</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+  <article>
+    <div class="post-eyebrow">Data & Analytics Insights</div>
+    <h1 class="post-title">When Dashboards Lie: The Hidden Cost of Complexity</h1>
+    <p class="post-sub">A look at my thesis research on cognitive load, dashboard design, and how more data on a screen can actually lead to worse decisions.</p>
+    <div class="post-meta">JULY 2026 · SAVANNA WARE</div>
+
+    <div class="post-body">
+      <p>Every analyst has built the dashboard that tries to say everything at once — every KPI, every filter, every chart type available in the tool, because someone asked for "full visibility." I've built that dashboard. I've also watched a stakeholder stare at it in a meeting, ask which number they were actually supposed to be looking at, and quietly lose confidence in the decision they were about to make. That moment is what led me to spend my master's thesis testing something a lot of analysts suspect but rarely measure directly: does a more complex dashboard actually make people worse at deciding, not just slower at reading?</p>
+
+      <h2>The theory: working memory has a ceiling</h2>
+      <p>The starting point is Cognitive Load Theory, developed by educational psychologist John Sweller. The core idea is simple: working memory can hold only a handful of new pieces of information at once — classically estimated at somewhere between four and seven chunks, for only a few seconds without active rehearsal. Sweller splits the mental effort we spend into three types: intrinsic load, which comes from the inherent difficulty of the material itself; germane load, the productive effort of actually building understanding; and extraneous load, the effort wasted on poor presentation — competing colors, redundant labels, cluttered layouts — that has nothing to do with the decision at hand.</p>
+      <p>A dashboard doesn't control intrinsic load; the business question is as hard as it is. But it controls almost all of the extraneous load. Every unnecessary chart, every inconsistent color scheme, every metric competing for attention is a tax on the same limited working memory the user needs to actually weigh the decision in front of them.</p>
+
+      <h2>Testing it: two dashboards, 101 people</h2>
+      <p>For my thesis, I built two versions of the same business dashboard using identical underlying data. Dashboard A followed standard design principles: visual hierarchy, limited color palette, grouped and labeled information. Dashboard B used the same data but was intentionally dense and cluttered — more competing visual elements, less organization. 101 participants viewed both dashboards and rated each on perceived complexity, cognitive load, and how confident they felt in the business decision the dashboard was meant to support.</p>
+
+      <table class="stat-table">
+        <tr><th>Variable</th><th>Dashboard A (clean)</th><th>Dashboard B (cluttered)</th></tr>
+        <tr><td>Perceived complexity (1–5)</td><td>2.29</td><td>4.46</td></tr>
+        <tr><td>Cognitive load (1–5)</td><td>2.46</td><td>4.30</td></tr>
+        <tr><td>Perceived decision quality (1–5)</td><td>3.91</td><td>1.86</td></tr>
+      </table>
+
+      <p>The gap wasn't subtle. The cluttered dashboard nearly doubled perceived complexity and cognitive load, while perceived decision quality — how confident people felt in the call they were about to make — dropped by more than half.</p>
+
+      <p>Correlation analysis reinforced the pattern in both conditions: dashboard complexity was strongly linked to cognitive load (r = 0.758 on Dashboard A, r = 0.652 on Dashboard B), and cognitive load was, in turn, linked to lower perceived decision quality (r = -0.574 and r = -0.629). Complexity itself had a weaker direct relationship with decision quality than cognitive load did — which is exactly the pattern you'd expect if cognitive load is the mechanism connecting the two, rather than complexity harming decisions on its own. In plainer terms: it's not that a busy dashboard is unpleasant to look at. It's that a busy dashboard actively borrows against the same mental resources a person needs to make a good call.</p>
+
+      <h2>This isn't just a lab finding</h2>
+      <p>The pattern shows up at scale, too. In a recent Oracle survey of business leaders, 85% reported experiencing "decision distress" — regretting or second-guessing a decision made in the past year — and 91% said the growing number of data sources available to them has actually limited their organization's success. Separately, 77% of leaders say the dashboards and charts they're handed aren't clearly tied to the decisions they actually need to make, even though 93% believe having the right decision intelligence is make-or-break for their organization. The tools meant to create clarity are, for a lot of people, doing the opposite.</p>
+
+      <div class="callout">The uncomfortable implication: adding another chart to "give people more context" often doesn't make a decision easier. It can make it measurably harder, even when every number on the screen is accurate.</div>
+
+      <h2>What this means for how I build things now</h2>
+      <p>Three things changed in how I approach dashboard and report design after this research. First, I treat every additional visual element as a cost, not a free add-on — if it doesn't serve the specific decision the dashboard exists to support, it comes out. Second, I design for the least experienced person who'll use the dashboard, not the analyst who built it; expertise buys you tolerance for visual density that most stakeholders don't have. Third, I stopped assuming that "more data" and "more informed" are the same thing. Past a fairly low threshold, they're not — they trade off against each other.</p>
+      <p>None of this argues for dumbing anything down. It argues for being deliberate about which cognitive effort is worth asking someone to spend, and cutting ruthlessly at the effort that isn't.</p>
+
+      <div class="post-footnote">
+        This article draws on my master's thesis, <em>"The Impact of Dashboard Complexity on Cognitive Load and Perceived Decision Quality"</em> (EDC Paris Business School, 2026) — <a href="WARE_Savanna_Thesis_EDC2026_DSBI.pdf" target="_blank">read the full thesis (PDF)</a>. Additional sources: Sweller's Cognitive Load Theory (<a href="https://www.sciencedirect.com/topics/psychology/cognitive-load-theory" target="_blank">ScienceDirect overview</a>); Oracle's 2024 Decision Dilemma study on data overload and decision distress (<a href="https://www.hrmorning.com/articles/decision-distress/" target="_blank">HRMorning</a>); prior dashboard and information-overload research cited in the thesis, including Few (2016), Burnay et al. (2024), Hjelle et al. (2024), Eppler & Mengis (2004), and Tversky & Kahneman (1974).
+      </div>
+    </div>
+
+    <a href="index.html#blog" class="back-link">← Back to Blog</a>
+  </article>
+</main>
+
+<footer>
+  <span>© 2026 Insights by Savanna</span>
+  <a href="https://linkedin.com/in/savanna-ware" style="color:inherit;text-decoration:none;">LinkedIn ↗</a>
+</footer>
+
+</body>
+</html>
